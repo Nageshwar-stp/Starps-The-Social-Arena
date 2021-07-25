@@ -36,7 +36,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///maindata.db'
 app.config['SQLALCHEMY_BINDS'] = { 'second' : 'sqlite:///newdata.db', 'third' : 'sqlite:///photodata.db', 'fourth' : 'sqlite:///privacyaccess.db', 'fifth' : 'sqlite:///storydata.db' }
-app.config['SECRET_KEY'] = 'riskindus29651382'
+app.config['SECRET_KEY'] = 'production_secret_key_goes_here'
 app.permanent_session_lifetime = timedelta(days=3)
 
 db = SQLAlchemy(app)
