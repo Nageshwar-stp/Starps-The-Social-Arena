@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Notifications : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark"
+    style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+    <a class="navbar-brand" href="{{url_for('user')}}" style="color: orange; background: none; border: none;">&laquo;
+        Back</a>
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+<br>
+
+<div class="container" style="font-family: 'Goldman'">
+    <h4><span style="color: orange;"></span>Notifications</h4>
+<hr style="height: 1px; background-color: black;">
+
+
+{% for notification in all_notifications %}
+{% if notification.notification_username == username %}
+  
+    {% if notification.notification_type == "New Follow" %}
+
+        <div class="notification-box new-follow"> <div class="notification-text">{{notification.notification_text}}</div><div class="notification-time">{{notification.notification_time}}</div> <br><a class="action-button" href="/user/show_user/{{notification.notification_person}}">View {{notification.notification_person}}</a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+    {% elif notification.notification_type == "Follow Request Accepted" %}
+
+        <div class="notification-box follow-request-accepted"> <div class="notification-text">{{notification.notification_text}}</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/show_user/{{notification.notification_person}}">{{notification.notification_person}}</a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+    
+    {% elif notification.notification_type == "Follow Request" %}
+
+        <div class="notification-box follow-request"><div class="notification-text">{{notification.notification_text}}</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/account/follow_requests">Follow Requests</a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+     {% elif "Text Post Like" in notification.notification_type  %}
+
+        <div class="notification-box follow-request"><div class="notification-text">{{notification.notification_text}} (Text Post ID : {{notification.notification_type[15:] }})</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/notifications/single_text_post/{{notification.notification_type[15:] }}/{{ (123 + notification.notification_id * 6730) * notification.notification_id }}/{{notification.notification_id}}">View Post </a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+    {% elif "Photo Post Like" in notification.notification_type  %}
+
+        <div class="notification-box follow-request"><div class="notification-text">{{notification.notification_text}} (Photo Post ID : {{notification.notification_type[16:] }})</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/notifications/single_photo_post/{{notification.notification_type[16:] }}/{{ (123 + notification.notification_id * 6730) * notification.notification_id }}/{{notification.notification_id}}">View Photo </a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+     {% elif "Text Post Reply" in notification.notification_type  %}
+
+        <div class="notification-box follow-request"><div class="notification-text">{{notification.notification_text}} (Text Post ID : {{notification.notification_type[16:] }})</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/notifications/single_text_post/{{notification.notification_type[16:] }}/{{ (123 + notification.notification_id * 6730) * notification.notification_id }}/{{notification.notification_id}}">View Post </a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+    {% elif "Photo Post Comment" in notification.notification_type  %}
+
+        <div class="notification-box follow-request"><div class="notification-text">{{notification.notification_text}} (Photo Post ID : {{notification.notification_type[19:] }})</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href="/user/notifications/single_photo_post/{{notification.notification_type[19:] }}/{{ (123 + notification.notification_id * 6730) * notification.notification_id }}/{{notification.notification_id}}">View Photo </a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+    {% else %}
+
+        <div class="notification-box else"><div class="notification-text">{{notification.notification_text}}</div><div class="notification-time">{{notification.notification_time}}</div><br><a class="action-button" href=""></a><a class="delete-notification" href="/user/notifications/delete/{{notification.notification_id}}"><i class="fa fa-close"></i></a></div>
+
+    {% endif %}
+  
+{% endif %}
+{% endfor %} 
+
+{% if notification_no == 0 %}
+    <div class="no-new-notification">
+        <i class="fa fa-bell-o"></i>
+        <div class="no-msg">NO NEW NOTIFICATIONS</div>
+    </div>
+{% else %}
+    
+    <div class="clear-msg"><hr>After Reading, Clear the Notifications</div>
+{% endif %}
+
+</div>
+
+
+
+<style>
+    body {
+        background-color: rgb(39, 39, 39);
+        color: white;
+    }
+    /*.break-block{
+        height: 20px;
+        background-color: gray;
+    }*/
+    .clear-msg{
+        padding-top: 200px;
+        text-align: center;
+        font-size: 11px;
+        font-family: 'Ubuntu';
+        color: rgb(80, 80, 80);
+    }
+    .no-new-notification{
+        font-size: 50px;
+        text-align: center;
+        padding: 160px 30px; 
+        color: orange;
+        text-shadow: 1px 1px 1px black;
+    }
+    .no-msg{
+        font-size: 16px;
+        color: white;
+    }
+    .notification-box{
+        width: 100%;
+        min-height: 40px;
+        background-color: rgb(55, 55, 55);
+        margin-bottom: 10px;
+        padding: 2px 5px 10px 5px;
+        border-radius: 5px;
+        float: right;
+    }
+    .notification-text{
+        width: 65%;
+        font-size: 12px;
+        float: left;
+        color: rgb(255, 255, 255);
+        font-family: 'Ubuntu';
+        font-weight: bold;
+    }
+    .notification-time{
+        width: 35%;
+        font-size: 9px;
+        float: right;
+        color: gray;
+        text-align: right;
+        font-family: 'Open Sans';
+    }
+    .action-button{
+        width: 65%;
+        float: left;
+        font-size: 12px;
+        border-radius: 3px;
+        color: orange;
+        text-align: left;
+        text-shadow: 1px 1px 1px black;
+    }
+    .delete-notification{
+        float: right;
+        color: orange;
+        width: 35%;
+        text-align: right;
+        font-size: 12px;
+    }
+
+
+   
+</style>
+{% endblock %}

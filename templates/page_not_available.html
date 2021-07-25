@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>PAGE NOT AVAILABLE</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark"
+    style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+    <a class="navbar-brand" href="{{url_for('user')}}" style="color: orange; background: none; border: none;">&laquo;
+        Back</a>
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+<br>
+
+<div class="container" style="font-family: 'Goldman'">
+    <div class="icon"><i class="fa fa-lock"></i></div>
+    <div class="not-available">PAGE NOT AVAILABLE</div>
+    <div class="notice">This is not an Error! This Page may be not available for Privacy Reasons, or Limitations of User Access Permissions. </div>
+
+    <br><br>
+
+    <p>
+        <a class="btn btn-warning setting-option info" data-toggle="collapse" href="#reasons" role="button" aria-expanded="false"
+            aria-controls="collapseExample" style="color: black;">
+            Learn More
+        </a>
+    </p>
+    <div class="collapse" id="reasons">
+        <div class="card card-body" style="background-color: black; ">
+               
+               <div class="reasons-box">
+                   <div class="details">
+                       This happens when, user visits a wrong page or the User don't have Permissions to visit that Particular Page. Reasons May be,
+                   </div>
+                   <br>
+                   <ul>
+                       <li>Page is Protected</li>
+                       <li>Page Not Available</li>
+                       <li>User is Blocked</li>
+                       <li>Page is Removed</li>
+                       <li>User Account Deleted</li>
+                       <li>Wrong URL</li>
+
+                   </ul>
+               </div>
+
+        </div>
+    </div>
+<br><br>
+
+
+
+</div>
+
+
+
+ <style>
+     body{
+        background-color: rgb(10, 10, 10);
+        text-align: center;
+     }
+     .icon{
+        padding-top: 60px;
+        font-size: 90px;
+        color: orange;
+        text-shadow: 2px 2px 1px black;
+     }
+     .not-available{
+        font-size: 40px;
+        color: orange;
+        text-shadow: 2px 2px 1px black;
+     }
+     .notice{
+        padding-top: 50px;
+        font-family: 'Ubuntu';
+        font-weight: bold;
+        font-size: 14px;
+        color: white;
+     }
+     .reasons-box{
+        background-color: gray;
+        height: 280px;
+        color: black;
+        padding: 20px;
+        text-align: left;
+        font-family: 'Ubuntu';
+        font-weight: bold;
+        font-size: 14px;
+        }
+     ul{
+        text-align: left;
+     }
+ </style> 
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta http-equiv="refresh" content="30">
+
+<title>Block List : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+        <a class="navbar-brand" href="{{url_for('settings')}}" style="color: orange;">&laquo; Back</a> 
+     
+
+      </nav>
+      
+      <!-- nav-bar-ends___________________________________ -->
+
+      <br>
+
+<div class="container" style="font-family: 'Goldman'">
+     <h4>Block List</h4><hr>
+
+{% if blocked_count == 0 %}
+
+<div class="nothing">----- Nothig to Show -----</div>
+
+{% endif %}
+
+
+{% for blocked in blocked_users %}
+
+<div class="contact">  
+
+<div class="left"><a>{{blocked}} </a></div>
+<div class="right"><a class="btn btn-outline-primary btn-sm" href="/user/account/block_list/unblock/{{blocked}}">Unblock</a></div>
+    
+</div>
+
+{% endfor %}
+
+</div>
+
+<style>
+    body{
+        background-color: rgb(39, 39, 39);
+        color: white;
+        /* height: 100vh; */
+    }
+    .contact{
+      background-color: black;
+      height: 50px;
+      margin: 12px 10px 15px 10px;
+      border-radius: 10px;
+      box-shadow: 3px 3px 3px rgb(80, 80, 80);
+    }
+   .left{
+       float:left;
+       width: 50%;
+       line-height: 50px;
+       text-align: left;
+       /* background-color: rgb(39, 0, 0); */
+   }
+
+   .left a{
+       padding-left: 20px;
+   }
+
+   .right{
+       float: right;
+       width: 50%;
+       line-height: 50px;
+       text-align: right;
+       /* background-color: blueviolet; */
+   }
+   .right a{
+       margin-right: 20px;
+   }
+
+   .nothing{
+       font-size: 22px;
+       text-align: center;
+       color: orange;
+       padding-top: 200px;
+   }
+    
+   
+   
+
+
+
+</style>
+{% endblock %}

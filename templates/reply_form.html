@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Reply Post</title>
+{% endblock %}
+
+
+
+{% block body %}
+<div class="logon-nav">
+    <a href="{{url_for('user')}}" style="color: orange;"> &laquo;Back </a>
+</div>
+
+<div class="container">
+    <h3 style="font-family: 'Goldman';">Reply Post</h3>
+
+</div>
+</div>
+<br>
+<div class="container">
+    <form action="" method="POST" style="font-family: 'Goldman';">
+        <div class="form-group">
+            <label for="content">Reply :</label>
+            <textarea class="form-control" id="reply-content" name="reply-content" placeholder="Reply Content" rows="3"
+                required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Reply</button>
+    </form>
+</div>
+
+<style>
+    body {
+        background-color: rgb(29, 29, 29);
+        color: white;
+    }
+
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+</style>
+{% endblock %}

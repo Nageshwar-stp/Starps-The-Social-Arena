@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Change Profile Picture</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="logon-nav">
+    <a href="{{url_for('account')}}" style="color: orange;"> &laquo; Back</a>
+
+</div>
+<br>
+
+<div class="container" style="color: white;">
+
+    <h4>Update Profile Picture</h4><br>
+
+    <div class="form-group" style="text-align: center;">
+        <form action="/user/account/update/profile" method="POST" enctype="multipart/form-data">
+            <input type="file" id="actual-btn" name="file" accept="image/x-png, image/jpg, image/jpeg" onchange="preview_image(event)" required hidden/>
+            <label for="actual-btn"><i class="fa fa-image"></i></label>
+            <br>
+            <img id="output_image" alt="."/>
+            <br><br>
+            
+            <input type="submit" class="btn btn-warning" value="Save" />
+        </form>
+    </div>
+   
+</div>
+
+<style>
+    body {
+        background-color: rgb(39, 39, 39);
+        font-family: 'Goldman';
+    }
+    #output_image{
+        width: 20vw;
+        height: 20vw;
+        border-radius: 50%;
+        object-fit: cover;
+        
+    }
+   
+    label{
+        font-size: 25px;
+        background-color: black;
+        padding: 15px 20px;
+        border-radius: 50%;
+        color: orange;
+    }        
+
+    form {
+        background-color: rgb(88, 88, 88);
+        padding: 20px;
+        border-radius: 14px;
+    }
+
+    form input {
+        border: 2px solid rgb(221, 144, 0);
+        border-radius: 10px;
+        width: 80%;
+    }
+
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+
+    @media(max-width:450px){
+        #output_image{
+            width: 35vw;
+            height: 35vw;
+        }
+    }
+</style>
+
+<script type='text/javascript'>
+function preview_image(event) 
+{
+ var reader = new FileReader();
+ reader.onload = function()
+ {
+  var output = document.getElementById('output_image');
+  output.src = reader.result;
+ }
+ reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+
+{% endblock %}

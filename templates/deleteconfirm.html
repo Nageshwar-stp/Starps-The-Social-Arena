@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Delete Account : </title>
+{% endblock %}
+
+
+
+{% block body %}
+<div class="logon-nav">
+        <a href="{{url_for('account')}}" style="color: orange;"> &laquo; Back</a>
+    </div>
+
+<div class="container">
+    <br>
+    <h3 style="font-family: 'Goldman';">Account Delete <span style="color: rgb(255, 72, 72);">Permanently</span></h3>
+    <hr>
+    
+    </div>
+</div>
+<br>
+<div class="container">
+    <form action="/account_delete" method="POST" style="font-family: 'Goldman';">
+       
+        <div class="form-group">
+            <label for="exampleInputPassword1">Enter Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password for Confirmation" required>
+            <br>
+            <small style="color: rgb(255, 71, 71);">Note : This is Permanent, non-recoverable!</small>
+        </div>
+
+        <button type="submit" name="delete" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+
+<style>
+     body{
+        background-color: rgb(41, 41, 41); 
+        color: white;
+    }
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+</style>
+{% endblock %}

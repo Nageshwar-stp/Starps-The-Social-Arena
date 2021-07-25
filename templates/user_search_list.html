@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Search User : {{user_to_search}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+        <a class="navbar-brand" href="{{url_for('user')}}" style="color: orange;">&laquo; Back</a> 
+     
+
+      </nav>
+      
+      <!-- nav-bar-ends___________________________________ -->
+
+      <br>
+
+<div class="container" style="font-family: 'Goldman'">
+     <h4>Found User : '<span style="color: orange;">{{user_to_search}}</span>'</h4><hr>
+
+{% for user in user_found %}
+{% for data in system_data %}
+{% if data.detail_username == user %}
+<div class="found-user"><a  href="/user/show_user/{{user}}">{{user}}</a>
+<small style="color: rgb(195, 195, 195);">{{data.detail_fullname}}</small>
+
+<!-- <small style="color: rgb(141, 141, 141)">{{data.detail_bio}}</small> -->
+</div><br>
+
+{% endif %}
+
+{% endfor %}
+
+{% endfor %}
+    
+</div>
+
+<style>
+    body{
+        background-color: rgb(39, 39, 39);
+        color: white;
+    }
+    .found-user{
+        padding: 10px;
+        background-color: rgb(46, 46, 46);
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        border-radius: 10px;
+        cursor:default;
+
+    }
+    .found-user a{
+        font-size: 18px;
+        display: block;
+        color: rgb(45, 161, 255);
+    }
+    
+
+</style>
+{% endblock %}

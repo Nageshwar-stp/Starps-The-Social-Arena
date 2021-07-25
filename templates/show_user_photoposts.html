@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Show Photo Posts : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+</div>
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26);">
+  <a class="navbar-brand" href="/user/show_user/{{username}}" style="color: orange;">&laquo; Back</a>
+
+
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+          aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+
+
+
+<div class="container" style="font-family: 'Goldman'; color:white;">
+    <br>
+    <h4><span style="color: rgb(0, 204, 255);">{{username}}</span>'s <a class="text-posts" href="/user/show_user/show_user_posts/{{username}}/{{user_private_key}}">Posts</a><a class="photo-posts"
+        href="/user/show_user/show_user_photoposts/{{username}}/{{user_private_key}}">Photos</a></h4>
+  <hr>
+
+  {% for photo in all_photo_posts %}
+  {% if photo.photopost_username == username %}
+
+  <div class="photo-post-box">
+        <div class="user-container">
+            <div class="user-profile"><img src="/static/{{photo.photopost_username}}.jpg"
+                    onerror="this.onerror=null; this.src='/static/Default.png'" alt="No"></div>
+            <div class="photo-username"><a
+                    href="/user/show_user/{{photo.photopost_username}}">{{photo.photopost_username}}</a>
+                <div class="time">{{photo.photopost_time}}</div>
+            </div>
+        </div>
+
+        {% if photo.photopost_text != " " %}
+        <div class="photo-text">{{photo.photopost_text}}</div>
+        {% endif %}
+
+        <div class="image-container"><img src="/static/{{photo.photopost_image}}" alt="Photo Removed"></div>
+
+        <!-- -------------------Reply area (Super Messed)---------------------------- -->
+        <div class="reply-section">
+            <p>
+
+                <a class="reply-collapse" style="color: orange;" type="button" data-toggle="collapse"
+                    data-target="#collapseExample{{photo.photopost_id}}" aria-expanded="false"
+                    aria-controls="collapseExample">
+                    <div class="reply-button"><i class="fa fa-comment"></i></div>
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample{{photo.photopost_id}}">
+
+                <div class="card card-body" style="color: white; background-color: rgb(70, 70, 70); ">
+                    {% for comment in all_comments %}
+                    
+                    {% if comment.comment_pp_post_id == photo.photopost_id %}
+
+                    <a class="reply-by" href="/user/show_user/{{comment.comment_pp_username}}">{{comment.comment_pp_username}}</a>
+                    <small class="reply-on">{{comment.comment_pp_time}}</small>
+                    <p class="reply-text">{{comment.comment_pp_content}}</p>
+
+                    {% if comment.comment_pp_username == username %}
+                    <p>
+                        <a style="float:right; width: 40px; font-size: 12px; color: rgb(255, 83, 83);" href="/user/view_photo_post/comment/delete/{{comment.comment_pp_id}}"><i
+                                class="fa fa-trash-o"></i></a>
+                        <a style="float:right; width: 40px; font-size: 12px; color: orange;" href=""><i
+                                class="fa fa-pencil"></i></a>
+                    </p>
+
+                    {% endif %}
+                    <hr>
+                    {% endif %}
+                    {% endfor %}
+
+                    <form class="form-inline" action="/user/view_photo_post/comment/{{photo.photopost_id}}" method="POST">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <input type="text" class="form-control" id="reply-content" name="comment-content"
+                                placeholder="Comment" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-warning mb-2 btn-sm"><i class="fa fa-location-arrow"></i></button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!-- ------------------------------------------------------- -->
+
+        <div class="like-section">
+            {% if post_and_likes.get(photo.photopost_id) != None %}
+            {% if username in post_and_likes.get(photo.photopost_id) %}
+            <a class="like-button like" href="/user/view_photo_post/remove_like/{{photo.photopost_id}}"><i
+                    class="fa fa-heart"></i></a>
+            {% else %}
+            <a class="like-button no-like" href="/user/view_photo_post/like/{{photo.photopost_id}}"><i
+                    class="fa fa-heart-o"></i></a>
+            {% endif %}
+            {% else %}
+            <a class="like-button no-like" href="/user/view_photo_post/like/{{photo.photopost_id}}"><i
+                    class="fa fa-heart-o"></i></a>
+            {% endif %}
+
+            <a class="no-of-likes" href="/user/show_photopost_likes_user/{{photo.photopost_id}}">{{number_of_likes.get(photo.photopost_id)}}</a>
+        </div>
+
+        {% if photo.photopost_username == username %}
+        <div class="action-button">
+            <a class="delete" href="/user/view_photo_post/delete/{{photo.photopost_id}}"><i
+                    class="fa fa-trash-o"></i></a>
+            <a class="edit" href="/user/view_photo_post/edit/{{photo.photopost_id}}"><i
+                    class="fa fa-pencil"></i></a>
+        </div>
+        {% endif %}
+
+    </div>
+    <br>
+
+  {% endif %}
+  {% endfor %}
+
+ 
+
+</div>
+
+
+
+
+<style>
+   body {
+            background-color: rgb(53, 53, 53);
+            font-family: 'Goldman';
+        }
+
+        h4 {
+            font-size: 18px;
+            border-bottom: 2px solid black;
+            padding-bottom: 1px;
+        }
+
+        h4 a {
+            color: white;
+        }
+
+        h4 .photo-posts {
+            background-color: black;
+            padding: 2px 10px;
+            margin-left: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            color: orange;
+        }
+
+        h4 .text-posts {
+            padding: 2px 10px;
+            margin-right: 5px;
+        }
+
+        .photo-post-box {
+            width: 100%;
+            height: auto;
+            background-color: rgb(116, 116, 116);
+            text-align: center;
+            border-radius: 7px;
+            box-shadow: 2px 2px 8px black;
+        }
+
+        .user-container {
+            width: 100%;
+            height: 45px;
+            background-color: rgb(22, 22, 22);
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+
+        }
+
+        .user-profile {
+            float: left;
+            padding: 5px 10px;
+        }
+
+        .user-profile img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .photo-username {
+            float: left;
+            padding: 5px 10px 1px 5px;
+            color: rgb(255, 255, 255);
+        }
+
+        .photo-username a {
+            color: white;
+        }
+
+        .time {
+            font-size: 8px;
+            color: gray;
+        }
+
+        .photo-text {
+            text-align: left;
+            padding: 5px 10px;
+            font-family: 'Ubuntu';
+            font-weight: bold;
+            white-space: pre-wrap;
+            font-size: 13px;
+            color: rgb(255, 255, 255);
+            text-shadow: 1px 1px 1px black;
+        }
+
+        .image-container {
+            margin: 10px;
+            background-color: rgb(36, 36, 36);
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 40vw;
+            height: auto;
+            object-fit: cover;
+            padding: 10px 0 10px 0;
+        }
+        .reply-section{
+            text-align: left;
+        }
+        .reply-button {
+            padding: 0px 10px;
+            color: orange;
+            font-size: 22px;
+            text-align: left;
+            text-shadow: 1px 1px 1px black;
+        }
+
+        .reply-by {
+            font-size: 16px;
+            color: orange;
+        }
+
+        .reply-on {
+            font-size: 8px;
+            color: gray;
+        }
+
+        .reply-text {
+            font-size: 12px;
+            font-family: 'Ubuntu';
+            font-weight: bold;
+        }
+
+        .like-section {
+            background-color: rgb(22, 22, 22);
+            text-align: right;
+        }
+
+        .no-of-likes {
+            text-align: right;
+            font-size: 12px;
+            color: rgb(255, 255, 255);
+            padding: 2px 25px 2px 5px;
+        }
+
+        .like {
+            color: rgb(255, 45, 45);
+        }
+
+        .no-like {
+            color: white;
+        }
+
+        .like-section .like-button {
+            font-size: 25px;
+            text-align: right;
+            padding: 10px;
+            text-shadow: 1px 1px 1px black;
+        }
+
+        .action-button {
+            background-color: black;
+            text-align: left;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .edit {
+            color: orange;
+            padding: 2px 3px;
+        }
+
+        .delete {
+            color: rgb(245, 24, 24);
+            padding: 2px 10px;
+        }
+ 
+ 
+</style>
+{% endblock %}

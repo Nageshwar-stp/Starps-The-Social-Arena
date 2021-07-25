@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Post Photo</title>
+{% endblock %}
+
+{% block body %}
+<div class="logon-nav">
+    <a href="{{url_for('view_photo_posts')}}" style="color: orange;"> &laquo; Back</a>
+
+</div>
+<br>
+<div class="container">
+    <!-- flash notification -->
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{ message }}
+
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- flash notification ends -->
+    </div>
+
+
+    <div class="container" style="color: white;">
+
+        <h4 style="font-family: 'Goldman';"><a class="create-post" href="{{url_for('createPost')}}">Create Post</a><a
+                class="post-photo" href="{{url_for('post_photo')}}">Post Photo</a></h4>
+        <br>
+        <div class="form-group" style="text-align: center;">
+            <form action="/user/post_photo" method="POST" enctype="multipart/form-data">
+                <input type="file" id="actual-btn" name="file" accept="image/x-png, image/jpg, image/jpeg"
+                    onchange="preview_image(event)" required hidden />
+                <label for="actual-btn"><i class="fa fa-image"></i></label><br>
+                <small>Select Image</small>
+                <br>
+                <img id="output_image" />
+                <br><br>
+                <textarea class="text-area" style="width: 80%;" name="photo_text" id="" cols="25" rows="4"
+                    placeholder="Text Area (Optional)"></textarea><br><br>
+                <input type="submit" class="btn btn-warning" value="Upload" />
+            </form>
+        </div>
+
+    </div>
+
+    <style>
+        body {
+            background-color: rgb(39, 39, 39);
+            font-family: 'Goldman';
+        }
+
+        h4 {
+            font-size: 18px;
+            border-bottom: 2px solid black;
+            padding-bottom: 1px;
+            color: white;
+        }
+
+        h4 a {
+            color: white;
+        }
+
+        h4 .post-photo {
+            background-color: black;
+            padding: 2px 10px;
+            margin-left: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            color: orange;
+        }
+
+        h4 .create-post {
+            padding: 2px 10px;
+            margin-right: 5px;
+        }
+
+        #output_image {
+            width: 70%;
+            height: auto;
+            border: 1px solid orange;
+            border-radius: 5px;
+        }
+
+        .text-area {
+            border: 1px solid black;
+            color: white;
+            font-family: 'Ubuntu';
+            font-size: 12px;
+            background-color: rgb(65, 65, 65);
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        label {
+            font-size: 25px;
+            background-color: black;
+            padding: 15px 20px;
+            border-radius: 50%;
+            color: orange;
+        }
+
+        form {
+            background-color: rgb(88, 88, 88);
+            padding: 20px;
+            border-radius: 14px;
+        }
+
+        form input {
+            border: 2px solid rgb(221, 144, 0);
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        .logon-nav {
+            width: 100%;
+            line-height: 45px;
+            background-color: black;
+        }
+
+        .logon-nav a {
+            color: white;
+            font-family: 'Goldman';
+            padding: 5px 20px 5px 20px;
+        }
+
+        @media(max-width:450px) {
+            #output_image {
+                width: 80%;
+                height: auto;
+            }
+        }
+    </style>
+
+    <script type='text/javascript'>
+        function preview_image(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output_image');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+    {% endblock %}

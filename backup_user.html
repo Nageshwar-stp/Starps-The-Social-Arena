@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<meta http-equiv="refresh" content="60">
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function () {
+    OneSignal.init({
+      appId: "1b9620ea-8590-4ab9-9d7d-fc10a0455640",
+    });
+  });
+</script>
+<title>STARPS : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark navbar-expand-xl"
+  style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top: 0; position: sticky;">
+  <a class="navbar-brand" href="" style="color: orange;">STARPS</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+    aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon" style="color: rgb(0, 255, 157);">{% if no_of_notifications != 0 %} <span style="color: red; z-index: 1; padding-left: 15px; font-size: 16px;"> <i class="fa fa-circle"></i> </span> {% endif %}</span>
+  </button>
+
+
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item active">
+        <a class="nav-link" style="" href="{{url_for('createPost')}}"><i class="fa fa-pencil-square-o"></i> Create
+          Post</a>
+      </li>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('post_photo')}}"><i class="fa fa-user-circle"></i> Post Photo<span
+            class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('account')}}"><i class="fa fa-user-circle"></i> My Account<span
+            class="sr-only">(current)</span></a>
+      </li>
+
+      <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('notifications')}}"><i class="fa fa-bell"></i> Notifications {% if no_of_notifications != 0 %} ( <span style="color: red;">{{no_of_notifications}}</span> ){% endif %}<span
+              class="sr-only">(current)</span></a>
+        </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{url_for('chat_room')}}"><i class="fa fa-paper-plane"></i> Chat Room<span
+            class="sr-only">(current)</span></a>
+      </li>
+
+
+      <li class="nav-item ">
+        <a class="nav-link" href="{{url_for('logout')}}"><i class="fa fa-sign-out"></i> Log out <span
+            class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <form class="form-inline" action="/user/search_user" method="POST" style="padding-top: 10px;">
+      <div class="form-group mx-sm-3 mb-2">
+        <input type="text" class="form-control" id="reply-content" name="search_user" placeholder="Search User"
+          list="user-list" autocomplete="off" required>
+        <datalist id="user-list">
+          {% for data in system_data %}
+          <option>{{data.username}}</option>
+          {% endfor %}
+
+        </datalist>
+      </div>
+      <button type="submit" class="btn btn-outline-primary btn-sm mb-2"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+
+<!-- floating-button starts----------------------------------- -->
+<a class="floating-button" href="{{url_for('createPost')}}"><i class="fa fa-pencil-square-o"></i></a>
+
+<!-- floating-button ends----------------------------------- -->
+
+
+
+<div class="container">
+  <!-- flash notification -->
+  {% with messages = get_flashed_messages() %}
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-warning alert-dismissable" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+      <span aria-hidden="true">x</span>
+    </button>
+    {{ message }}
+
+    {% endfor %}
+
+
+    {% endif %}
+    {% endwith %}
+    <!-- flash notification ends -->
+
+  </div>
+
+
+
+  <br>
+  <div class="container" style="font-family: 'Goldman'; color:white;">
+
+
+      <h4><a class="text-posts" href="{{url_for('user')}}">Posts</a><a class="photo-posts" href="{{url_for('view_photo_posts')}}">Photos</a></h4>
+
+    {% for post in posts %}
+    <br>
+    {% if post.posted_by not in blocked_list %}
+
+    {% if post.posted_by == username %}
+    <div class="change-align">
+      <p>
+        <h5><a href="/user/show_user/{{post.posted_by}}" style="color: rgb(255, 255, 255);"><img src="/static/{{post.posted_by}}.jpg" alt="fdgt">You</a></h5>
+
+
+        <a data-toggle="collapse" href="#collapseExampledate{{post.post_id}}" role="button" aria-expanded="false"
+          aria-controls="collapseExample"
+          style="color: rgb(101, 193, 255); float:left; font-family: 'Open sans', sans-serif;">
+          <!-- &Xi; --><i class="fa fa-sort-desc"></i>
+        </a>
+      </p>
+      <div class="collapse" id="collapseExampledate{{post.post_id}}">
+        <div class="card card-body" style="background-color: rgb(53, 53, 53);">
+          <small style="color: rgb(255, 188, 107);">Posted on : <span
+              style="color: rgb(255, 255, 255); letter-spacing: 1px;">{{ post.posted_on }}</span> </small>
+        </div>
+      </div>
+
+      <p style="white-space:pre-wrap; font-family: 'Ubuntu'; font-weight: bold; color: white;">{{ post.post_content }}</p>
+
+      <a class="btn btn-warning btn-sm" style="float:right" href="/user/delete/{{post.post_id}}"><i
+          class="fa fa-trash"></i></a>
+      <a class="btn btn-secondary btn-sm" style="margin-right: 20px; " href="/user/edit/{{post.post_id}}"><i
+          class="fa fa-pencil"></i></a>
+
+
+    </div>
+
+    {% else %}
+
+    <h5> <img src="/static/{{post.posted_by}}.jpg" alt="fdgt"><a href="/user/show_user/{{post.posted_by}}"
+        style="color: rgb(101, 193, 255); text-decoration: underline;">{{ post.posted_by }}</a></h5>
+       
+
+    <a data-toggle="collapse" href="#collapseExampledate{{post.post_id}}" role="button" aria-expanded="false"
+      aria-controls="collapseExample"
+      style="color: rgb(101, 193, 255); float:right; font-family: 'Open sans', sans-serif;">
+      <!-- &Xi; --><i class="fa fa-sort-desc"></i>
+    </a>
+    </p>
+    <div class="collapse" id="collapseExampledate{{post.post_id}}">
+      <div class="card card-body" style="background-color: rgb(53, 53, 53);">
+        <small style="color: rgb(255, 188, 107);">Posted on : <span
+            style="color: rgb(255, 255, 255); letter-spacing: 1px;">{{ post.posted_on }}</span> </small>
+      </div>
+    </div>
+
+
+    <p style="white-space:pre-wrap; font-family: 'Ubuntu'; font-weight: bold; color: white;">{{ post.post_content }}</p>
+
+
+    {% endif %}
+    <p>
+
+      <a class="reply-collapse" style="color: rgb(255, 123, 0); font-size:12px;" type="button" data-toggle="collapse"
+        data-target="#collapseExample{{post.post_id}}" aria-expanded="false" aria-controls="collapseExample">
+        <i class="fa fa-mail-reply"></i> Reply
+      </a>
+    </p>
+    <div class="collapse" id="collapseExample{{post.post_id}}">
+
+      <div class="card card-body" style="color: white; background-color: rgb(77, 77, 77); ">
+
+        <hr>
+
+        {% for reply in replies %}
+        {% if reply.reply_by not in blocked_list %}
+        {% if reply.reply_of == post.post_id %}
+
+        <h6><a href="/user/show_user/{{reply.reply_by}}" style="color: #00e5ff">{{ reply.reply_by }}</a></h6>
+        <small style="font-size: 10px; color:black;">Replied on : {{reply.reply_on}}</small>
+        <p>{{ reply.reply_content }}</p>
+        {% if reply.reply_by == username %}
+        <p>
+          <a style="float:right; width: 40px; font-size: 12px; color: rgb(255, 83, 83);"
+            href="/user/delete_reply/{{reply.reply_id}}"><i class="fa fa-trash"></i></a>
+          <a style="float:right; width: 40px; font-size: 12px; color: rgb(255, 255, 255);"
+            href="/user/edit_reply/{{reply.reply_id}}"><i class="fa fa-pencil"></i></a>
+        </p>
+
+
+        {% endif %}
+        <hr>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        <form class="form-inline" action="/user/reply/{{post.post_id}}" method="POST">
+          <div class="form-group mx-sm-3 mb-2">
+            <input type="text" class="form-control" id="reply-content" name="replycontent"
+              placeholder="Reply {{post.posted_by}}" required>
+          </div>
+          <button type="submit" class="btn btn-outline-warning mb-2">Reply</button>
+        </form>
+
+      </div>
+    </div>
+    <hr style="background-color: black;">
+
+    {% endif %}
+
+
+    {% endfor %}
+  </div>
+
+  <style>
+    body {
+      background-color: rgb(53, 53, 53);
+    }
+    h4 {
+        font-size: 18px;
+        border-bottom: 2px solid black;
+        padding-bottom: 1px;
+        color: white;
+    }
+    h4 a{
+      color: white;
+    }
+    h4 .text-posts{
+      background-color: black;
+      padding: 2px 10px;
+      margin-right: 5px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      color: orange;
+    }
+    h4 .photo-posts{
+        padding: 2px 10px;
+        margin-left: 5px;
+    }
+    img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    .floating-button {
+      bottom: 30px;
+      right: 30px;
+      position: fixed;
+      z-index: 111;
+      background-color: black;
+      padding: 10px 15px;
+      font-size: 20px;
+      color: orange;
+      border-radius: 50%;
+      opacity: 0.9;
+      transition: 0.3s;
+
+    }
+
+    .floating-button:hover {
+      color: white;
+    }
+
+    .change-align {
+      text-align: right;
+    }
+
+
+    .user-nav {
+      width: 100%;
+      line-height: 45px;
+      background-color: black;
+      top: 0;
+      position: sticky;
+    }
+
+    .user-nav a {
+      color: white;
+      font-family: 'Goldman';
+      padding: 5px 20px 5px 20px;
+    }
+
+    input::-webkit-calendar-picker-indicator {
+      display: none;
+    }
+  </style>
+
+  {% endblock %}

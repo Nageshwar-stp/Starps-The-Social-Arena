@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Account Privacy : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark"
+    style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+    <a class="navbar-brand" href="{{url_for('settings')}}" style="color: orange; background: none; border: none;">&laquo;
+        Back</a>
+
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+<br>
+
+<div class="container" style="font-family: 'Goldman'">
+    <h4><span style="color: orange;"></span>Account Privacy</h4>
+<hr style="height: 1px; background-color: black;">
+<br>
+<div class="private-button">Private Account 
+    {% if private_status == False %}
+    <a class="unlock" href="{{url_for('lock_account')}}"><i class="fa fa-unlock"></i></a> 
+    {% endif %}
+
+    {% if private_status == True %}
+    <a class="lock" href="{{url_for('unlock_account')}}"><i class="fa fa-lock"></i></a> 
+    {% endif %}
+
+</div>
+<hr>
+
+
+</div>
+
+
+
+<style>
+    body {
+        background-color: rgb(131, 131, 131);
+    }
+
+    .private-button{
+        width: 250px;
+        height: 35px;
+        /* background-image: linear-gradient(90deg, black, rgb(131, 131, 131), rgb(131, 131, 131)); */
+        margin: 12px 5px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        color: rgb(255, 255, 255);
+        font-size: 20px;
+        text-shadow: 1px 1px 1px black;
+    }
+    .private-button a{
+        float: right;
+        font-size: 22px;
+        padding: none;
+        padding-right: 10px;
+        text-shadow: 2px 2px 1px black;
+    }
+    .unlock{
+        color: orange;
+    }
+    .lock{
+        color: rgb(26, 219, 0);
+    }
+
+</style>
+{% endblock %}

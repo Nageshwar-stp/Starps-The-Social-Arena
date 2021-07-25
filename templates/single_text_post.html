@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Show Posts : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+</div>
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26);">
+  <a class="navbar-brand" href="{{url_for('notifications')}}" style="color: orange;">&laquo; Back</a>
+
+
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+          aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+
+
+
+<div class="container" style="font-family: 'Goldman'; color:white;">
+  <br>
+
+
+  <div class="post-box">
+    <div class="user-container">
+        <div class="user-profile"><img src="/static/{{post.posted_by}}.jpg" onerror="this.onerror=null; this.src='/static/Default.png'" alt="No"></div>
+        <div class="post-username"><a href="/user/show_user/{{post.posted_by}}">{{post.posted_by}}</a><div class="time">{{post.posted_on}}</div></div>
+    </div>
+
+        <div class="post-text" >{{post.post_content}}</div>
+
+        
+          <!-- -------------------Reply area (Super Messed)---------------------------- -->
+          <div class="reply-section">
+          <p>
+
+              <a class="reply-collapse" style="color: orange;" type="button" data-toggle="collapse"
+                data-target="#collapseExample{{post.post_id}}" aria-expanded="false" aria-controls="collapseExample">
+                <div class="reply-button"><i class="fa fa-mail-reply"></i></div>
+              </a>
+            </p>
+            <div class="collapse" id="collapseExample{{post.post_id}}">
+        
+              <div class="card card-body" style="color: white; background-color: rgb(70, 70, 70); ">
+        
+                {% for reply in replies %}
+                {% if reply.reply_by not in blocked_list %}
+                {% if reply.reply_of == post.post_id %}
+        
+                <a class="reply-by" href="/user/show_user/{{reply.reply_by}}">{{ reply.reply_by }}</a>
+                <small class="reply-on">{{reply.reply_on}}</small>
+                <p class="reply-text">{{ reply.reply_content }}</p>
+
+                {% if reply.reply_by == username %}
+                <p>
+                  <a style="float:right; width: 40px; font-size: 12px; color: rgb(255, 83, 83);"
+                    href="/user/delete_reply/{{reply.reply_id}}"><i class="fa fa-trash-o"></i></a>
+                  <a style="float:right; width: 40px; font-size: 12px; color: orange;"
+                    href="/user/edit_reply/{{reply.reply_id}}"><i class="fa fa-pencil"></i></a>
+                </p>
+
+                {% endif %}
+                <hr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+        
+                <form class="form-inline" action="/user/reply/{{post.post_id}}" method="POST">
+                  <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="reply-content" name="replycontent"
+                      placeholder="Reply {{post.posted_by}}" required>
+                  </div>
+                  <button type="submit" class="btn btn-outline-warning mb-2 btn-sm">Reply</button>
+                </form>
+        
+              </div>
+            </div>
+          </div>
+          <!-- ------------------------------------------------------- -->
+    
+        <div class="like-section">
+          {% if post_and_likes.get(post.post_id) != None %}
+          {% if username in post_and_likes.get(post.post_id) %}
+          <a class="like-button like" href="/user/remove_like/{{post.post_id}}"><i class="fa fa-thumbs-up"></i></a>
+          {% else %}
+          <a class="like-button no-like" href="/user/like/{{post.post_id}}"><i class="fa fa-thumbs-o-up"></i></a>            
+          {% endif %}
+          {% else %}
+          <a class="like-button no-like" href="/user/like/{{post.post_id}}"><i class="fa fa-thumbs-o-up"></i></a>            
+          {% endif %}           
+
+            <a class="no-of-likes" href="">{{number_of_likes.get(post.post_id)}}</a>
+        </div>
+
+        {% if post.posted_by == username %}
+        <div class="action-button">
+            <a class="delete" href="/user/delete/{{post.post_id}}"><i class="fa fa-trash-o"></i></a>
+            <a class="edit" href="/user/edit/{{post.post_id}}"><i class="fa fa-pencil"></i></a>
+        </div>
+        {% endif %}
+</div>
+<br>
+
+
+</div>
+
+
+
+
+<style>
+  body {
+    background-color: rgb(53, 53, 53);
+    color: white;
+  }
+  h4 {
+      font-size: 18px;
+      border-bottom: 2px solid black;
+      padding-bottom: 1px;
+      color: white;
+    }
+
+    h4 a {
+      color: white;
+    }
+
+    h4 .text-posts {
+      background-color: black;
+      padding: 2px 10px;
+      margin-right: 5px;
+      margin-left: 5px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      color: orange;
+    }
+
+    h4 .photo-posts {
+      padding: 2px 10px;
+      margin-left: 5px;
+    }
+
+  .post-box{
+      width: 100%;
+      height: auto;
+      background-color: rgb(70, 70, 70);
+      border-radius: 6px;
+      box-shadow: 2px 2px 8px black;
+      overflow : hidden;
+    }
+    .user-container{
+      width: 100%;
+      height: 45px;
+      background-color: rgb(22, 22, 22);
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    .user-profile{
+        float: left;
+        padding: 5px 10px;
+    }
+    .user-profile img{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .post-username{
+      float: left;
+      padding: 5px 10px 1px 10px;
+      color: rgb(255, 255, 255);
+    }
+    .post-username a{
+      color: white;
+    }
+    .time{
+      font-size: 8px;
+      color: gray;
+    }
+    .post-text{
+      padding: 5px;
+      margin: 5px;
+      font-family: 'Ubuntu';
+      font-weight : bold;
+      font-size: 14px;
+      background-color: rgb(36, 36, 36);
+      text-align : left;
+      white-space: pre-wrap;
+      color: white;
+      overflow : hidden;
+    }
+    
+    .reply-button{
+      padding: 0px 10px;
+      color: orange;
+      font-size: 18px;
+      text-shadow: 1px 1px 1px black;
+    }
+    .reply-by{
+      font-size: 16px;
+      color: orange;
+    }
+    .reply-on{
+      font-size: 8px;
+      color: gray;
+    }
+    .reply-text{
+      font-size: 12px;
+      font-family: 'Ubuntu';
+      font-weight: bold;
+    }
+    .like-section{
+        text-align: right;
+        background-color: rgb(22, 22, 22);
+
+    }
+    .no-of-likes{
+        text-align: right;
+        font-size: 12px;
+        color: orange;
+        padding: 2px 25px 2px 5px;
+    }
+    .like-section .like-button{
+        font-size: 25px;
+        text-align: right;
+        padding: 10px ;
+        color: orange;
+        text-shadow: 1px 1px 1px black;
+    }
+    .action-button{
+        background-color: black;
+        text-align: left;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .edit{
+        color: orange;
+        padding: 2px 3px;
+    }
+    .delete{
+        color: rgb(245, 24, 24);
+        padding: 2px 10px;
+    }
+
+ 
+</style>
+{% endblock %}

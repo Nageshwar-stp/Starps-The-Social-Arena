@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Show Followers : {{user}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+        <button class="navbar-brand" href="" onclick="history.back()" style="color: orange; background: none; border: none;">&laquo; Back</button> 
+      </nav>
+      
+      <!-- nav-bar-ends___________________________________ -->
+
+      <br>
+
+<div class="container" style="font-family: 'Goldman'">
+     <h5><span style="color: orange;">{{user}}</span>'s Followers</h5><hr>
+
+{% for follower in all_followers %}
+
+{% if follower.followed_to == user %}
+<div class="box">
+
+    <div class="name"><a href="/user/show_user/{{follower.followed_by}}">{{follower.followed_by}}</a></div>
+
+    {% if user == username %}
+
+        <div class="eliminate"><a href="/user/account/eliminateFollower/{{follower.followed_by}}">Eliminate</a></div>
+
+    {% endif %}
+
+</div>
+{% endif %}
+
+{% endfor %}
+
+</div>
+
+<style>
+    body{
+        background-color: rgb(39, 39, 39);
+        color: white;
+    }
+    
+    .box{
+        width: 100%;
+        line-height: 30px;
+        background-color: white;
+        margin-bottom : 60px;
+    }
+    .name{
+        width: 78%;
+        height: 30px;
+        float: left;
+        background-color: rgb(87, 87, 87);
+        padding-left: 10px;
+        border-radius: 5px;
+        margin-right: 2px;
+        text-shadow: 1px 1px 1px black;
+    }
+    .name a{
+        color: orange;
+    }
+    .eliminate{
+        width: 20%;
+        height: 30px;
+        float: right;
+        /* background-color: rgb(87, 87, 87); */
+        text-align: right;
+        padding-right: 5px;
+        border-radius: 8px;
+    }
+    .eliminate a{
+        border: 2px solid rgb(0, 0, 0);
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: rgb(209, 209, 209);
+        font-size: 14px;
+        text-shadow: 1px 1px 1px black;
+        box-shadow: 1px 1px 1px black;
+        background-color: black;
+    }
+
+</style>
+{% endblock %}

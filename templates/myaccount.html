@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>My account : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+<!-- <div class="account-nav" style="font-family: 'Goldman'">
+    <a class="nav-link" style="color: white" href="{{url_for('user')}}">Back</a>
+   
+</div> -->
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26);">
+
+    <a class="navbar-brand" href="{{url_for('user')}}" style="color: orange;">&laquo; Back </a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+        aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            {% if privacy_status %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('follow_requests')}}"><i class="fa fa-user-plus"></i> Follow Requests <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('settings')}}"><i class="fa fa-gear"></i> Settings <span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+<br>
+<div class="container">
+    <!-- flash notification -->
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{ message }}
+
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- flash notification ends -->
+
+    </div>
+
+
+
+    <div class="container" style="text-align: left; font-family: 'Goldman';">
+        <br>
+
+        <h6>MY ACCOUNT</h6>
+
+        <!-- <a class="btn btn-primary" style="color: white; float: right" href="{{url_for('user')}}">Update account</a> -->
+
+        <div class="profile-picture">
+
+            <img src="{{url_for('static',filename=profile_pic)}}" onerror="this.onerror=null; this.src='/static/Default.png'" alt="No Profile Image">
+        </div>
+
+        <h2 style="text-align: center;">{{username}}</h2>
+        <hr style="background-color: orange; width: 40vw;">
+        <br>
+
+        <div class="button-holder">
+            <div>
+                <div class="followers-button">
+                    <a class=" btn-outline-secondary btn-sm " href="/user/show_user/followers/{{username}}/{{user_private_key}}"
+                        style="float: left; margin-right: 5px;">Followers : {{followers_no}}</a>
+                </div>
+
+                <div class="following-button">
+                    <a class=" btn-outline-secondary btn-sm" href="/user/show_user/following/{{username}}/{{user_private_key}}"
+                        style="float: right; margin-left: 5px;">Following : {{following_no}}</a>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <div class="fullname-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="fullname-head" style="color: orange;">Fullname</h5>
+                <div class="fullname-content">{{fullname}}</div>
+            </div>
+            <br>
+            <div class="bio-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="bio-head" style="color: orange;">Bio</h5>
+                <div class="bio-content">{{bio}}</div>
+            </div>
+            <br>
+            <div class="gender-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="gender-head" style="color: orange;">Gender</h5>
+                <div class="gender-content">{{gender}}</div>
+            </div>
+            <br>
+
+            <div class="email-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="email-head" style="color: orange;">Email</h5>
+                <div class="email-content">{{email}}</div>
+            </div>
+            <br>
+
+            <div class="location-secti" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="location-head" style="color: orange;">Location</h5>
+                <div class="location-content">{{city}}, {{state}}, {{country}}</div>
+            </div>
+
+            <br><br>
+            <br>
+
+        </div>
+
+        <style>
+            body {
+                background-color: rgb(39, 39, 39);
+                color: white;
+            }
+
+            .profile-picture {
+                padding: 10px;
+                overflow: hidden;
+                text-align: center;
+            }
+
+            .profile-picture img {
+                width: 20vw;
+                height: 20vw;
+                border-radius: 50%;
+                margin: 20px;
+                border: 2px solid orange;
+                padding: 5px;
+                object-fit: cover;
+                background-image: url('default.png')
+            }
+
+            div {
+                border-radius: 0px;
+            }
+
+            .account-nav {
+                width: 100%;
+                height: 40px;
+                background-color: rgb(26, 26, 26);
+            }
+
+            @media(max-width:450px) {
+                .profile-picture img {
+                    width: 35vw;
+                    height: 35vw;
+                }
+            }
+        </style>
+        {% endblock %}

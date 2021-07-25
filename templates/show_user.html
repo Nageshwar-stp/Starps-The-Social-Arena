@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>View Account : {{username_}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26);">
+    <a class="navbar-brand" href="{{url_for('user')}}" style="color: orange;">&laquo;</a>
+
+    <div class="view-post" style="text-align:right;">
+
+
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01"
+        aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            {% if private_account and logged_follow == True %}
+            {% if username_ != curr_user and logged_follow %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/show_user/message/{{username_}}/{{user_private_key}}"><i class="fa fa-send-o"></i>
+                    Message<span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/show_user/show_user_posts/{{username_}}/{{user_private_key}}"><i
+                        class="fa fa-pencil-square-o"></i> {{username_}}'s Posts<span class="sr-only">(current)</span></a>
+            </li>
+            {% elif private_account == False or curr_user == username_ %}
+
+            {% if username_ != curr_user and logged_follow %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/show_user/message/{{username_}}/{{user_private_key}}"><i class="fa fa-send-o"></i>
+                    Message<span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/show_user/show_user_posts/{{username_}}/{{user_private_key}}"><i
+                        class="fa fa-pencil-square-o"></i> {{username_}}'s Posts<span class="sr-only">(current)</span></a>
+            </li>
+           
+            {% endif %}
+
+            {% if username_ != curr_user %}
+
+            <li class="nav-item active">
+                <a class="nav-link" style="color: orange;" href="/report_user/{{username_}}"><i
+                        class="fa fa-exclamation-triangle"></i> Report <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" style="color: red;" href="/block_user/{{username_}}"><i class="fa fa-ban"></i> Block
+                    <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+
+
+
+<div class="container" style="text-align: center; font-family: 'Goldman';">
+
+    <div class="profile-picture">
+        <img src="{{url_for('static',filename=profile_pic_user)}}"  onerror="this.onerror=null; this.src='/static/Default.png'" alt="No Profile Picture">
+
+    </div>
+
+    <h4 style="text-align: center; color: orange; background-color: black;">{{username_}}</h4>
+
+    {% if private_account and logged_follow == True %}
+    <div class="button-holder">
+        <div>
+            <div class="followers-button">
+                <a class=" btn-outline-secondary btn-sm " href="/user/show_user/followers/{{username_}}/{{user_private_key}}"
+                    style="float: left; margin-right: 5px;">Followers : {{followers_no}}</a>
+            </div>
+
+            <div class="following-button">
+                <a class=" btn-outline-secondary btn-sm" href="/user/show_user/following/{{username_}}/{{user_private_key}}"
+                    style="float: right; margin-left: 5px;">Following : {{following_no}}</a>
+            </div>
+        </div>
+        {% elif private_account == False or curr_user == username_%}
+        <div class="button-holder">
+            <div>
+                <div class="followers-button">
+                    <a class=" btn-outline-secondary btn-sm " href="/user/show_user/followers/{{username_}}/{{user_private_key}}"
+                        style="float: left; margin-right: 5px;">Followers : {{followers_no}}</a>
+                </div>
+    
+                <div class="following-button">
+                    <a class=" btn-outline-secondary btn-sm" href="/user/show_user/following/{{username_}}/{{user_private_key}}"
+                        style="float: right; margin-left: 5px;">Following : {{following_no}}</a>
+                </div>
+            </div>
+        {% else %}
+        <div class="button-holder">
+            <div>
+                <div class="followers-button">
+                    <a class=" btn-outline-secondary btn-sm " 
+                        style="float: left; margin-right: 5px;">Followers : {{followers_no}}</a>
+                </div>
+    
+                <div class="following-button">
+                    <a class=" btn-outline-secondary btn-sm"
+                        style="float: right; margin-left: 5px;">Following : {{following_no}}</a>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <br>
+        <div class="follow-button-holder">
+            <hr>
+            {% if username_ != curr_user %}
+            {% if logged_follow %}
+            <div class="followers-button">
+                <a class="btn btn-outline-danger btn-sm " href="/user/show_user/unfollow/{{username_}}"
+                    style="width: 100%;">UNFOLLOW</a>
+            </div>
+            {% else %}
+            {% for request in requests_data %}
+            {% if request.follow_request_by == curr_user and request.follow_request_to == username_ %}
+            <div class="followers-button">
+                <a class="btn btn-outline-info btn-sm " href="/user/show_user/cancle/{{username_}}"
+                    style="width: 100%;">REQUEST SENT</a>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% if pending_f_request == False %}
+            <div class="followers-button">
+                <a class="btn btn-info btn-sm " href="/user/show_user/follow/{{username_}}"
+                    style="width: 100%;">FOLLOW</a>
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- Account Details section starts -------------------------------- -->
+        <br>
+        {% if private_account and logged_follow == True %}
+        <div class="bio-section"
+            style="text-align: center; ;border: 1px solid rgb(255, 255, 255); border-radius: 5px ; padding: 10px;">
+            <h5 class="bio-head" style="color: orange; ">Bio</h5>
+            <div class="bio-content" style="font-family: 'Red rose';">{{bio}}</div>
+        </div><br>
+
+        <br>
+        <div class="fullname-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="fullname-head" style="color: orange;">Fullname</h5>
+            <div class="fullname-content">{{fullname}}</div>
+        </div>
+        <br>
+
+
+        <br>
+        <div class="gender-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="gender-head" style="color: orange;">Gender</h5>
+            <div class="gender-content">{{gender}}</div>
+        </div>
+        <br>
+
+
+
+        <div class="location-secti" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="location-head" style="color: orange;">Location</h5>
+            <div class="location-content">{{city}}, {{state}}, {{country}}</div>
+        </div>
+
+        <br>
+        <div class="button-holder">
+            {% if username_ != curr_user and logged_follow %}
+            <div class="msg-button">
+                <a class="btn btn-warning btn-sm " href="/user/show_user/message/{{username_}}/{{user_private_key}}"
+                    style="float: left; margin-right: 5px;">Message <i class="fa fa-send-o"></i></a>
+            </div>
+            <div>
+                {% endif %}
+                <div class="post-button">
+                    <a class="btn btn-primary btn-sm" href="/user/show_user/show_user_posts/{{username_}}/{{user_private_key}}"
+                        style="float: right; margin-left: 5px;"><i class="fa fa-pencil-square-o"></i> Posts</a>
+                </div>
+            </div>
+            {% elif private_account == False or curr_user == username_ %}
+
+
+            <div class="bio-section"
+            style="text-align: center; ;border: 1px solid rgb(255, 255, 255); border-radius: 5px ; padding: 10px;">
+            <h5 class="bio-head" style="color: orange; ">Bio</h5>
+            <div class="bio-content" style="font-family: 'Red rose';">{{bio}}</div>
+        </div><br>
+
+        <br>
+        <div class="fullname-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="fullname-head" style="color: orange;">Fullname</h5>
+            <div class="fullname-content">{{fullname}}</div>
+        </div>
+        <br>
+
+
+        <br>
+        <div class="gender-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="gender-head" style="color: orange;">Gender</h5>
+            <div class="gender-content">{{gender}}</div>
+        </div>
+        <br>
+
+
+
+        <div class="location-secti" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+            <h5 class="location-head" style="color: orange;">Location</h5>
+            <div class="location-content">{{city}}, {{state}}, {{country}}</div>
+        </div>
+
+        <br>
+        <div class="button-holder">
+            {% if username_ != curr_user and logged_follow%}
+            <div class="msg-button">
+                <a class="btn btn-warning btn-sm " href="/user/show_user/message/{{username_}}/{{user_private_key}}"
+                    style="float: left; margin-right: 5px;">Message <i class="fa fa-send-o"></i></a>
+            </div>
+            <div>
+                {% endif %}
+                <div class="post-button">
+                    <a class="btn btn-primary btn-sm" href="/user/show_user/show_user_posts/{{username_}}/{{user_private_key}}"
+                        style="float: right; margin-left: 5px;"><i class="fa fa-pencil-square-o"></i> Posts</a>
+                </div>
+            </div>
+
+
+            {% else %}
+            <br><br>
+
+            <div class="private-account"><i class="fa fa-lock icon"></i> <br>Private Account</div>
+            <br><br>
+            <div class="bio-section"
+                style="text-align: center; ;border: 1px solid rgb(255, 255, 255); border-radius: 5px ; padding: 10px;">
+                <h5 class="bio-head" style="color: orange; ">Bio</h5>
+                <div class="bio-content" style="font-family: 'Red rose';">{{bio}}</div>
+            </div><br>
+
+            <br>
+            <div class="fullname-section" style="border-bottom: 1px solid rgb(13, 166, 255); padding: 10px;">
+                <h5 class="fullname-head" style="color: orange;">Fullname</h5>
+                <div class="fullname-content">{{fullname}}</div>
+            </div>
+            {% endif %}
+        <!-- Account Details section ends (with Buttons) -------------------------------- -->
+
+            <br>
+            <br>
+            <br><br>
+        </div>
+
+        <style>
+            body {
+                background-color: rgb(39, 39, 39);
+                color: white;
+            }
+
+            .icon {
+                font-size: 70px;
+            }
+
+            .private-account {
+                font-size: 20px;
+            }
+
+            .button-holder {
+                width: 100%;
+                height: 40px;
+                text-align: center;
+                margin-top: 15px;
+            }
+
+            .msg-button {
+                width: 46%;
+                line-height: 40px;
+                text-align: center;
+                float: left;
+
+            }
+
+            .post-button {
+                width: 54%;
+                line-height: 40px;
+                text-align: center;
+                float: right;
+            }
+
+            .profile-picture {
+                padding: 10px;
+                overflow: hidden;
+            }
+
+            .profile-picture img {
+                width: 20vw;
+                height: 20vw;
+                border-radius: 50%;
+                margin: 20px;
+                border: 2px solid rgb(0, 183, 255);
+                padding: 5px;
+                object-fit: cover;
+                background-image: url('default.png')
+            }
+
+            div {
+                border-radius: 0px;
+            }
+
+            .account-nav {
+                width: 100%;
+                height: 40px;
+                background-color: rgb(26, 26, 26);
+            }
+
+            @media(max-width:450px) {
+                .profile-picture img {
+                    width: 35vw;
+                    height: 35vw;
+                }
+            }
+        </style>
+        {% endblock %}

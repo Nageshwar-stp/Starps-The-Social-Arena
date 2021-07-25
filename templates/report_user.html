@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+<title>Report User : {{user}}</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="logon-nav">
+    <a href="{{url_for('user')}}" style="color: orange;"> &laquo; </a>
+</div>
+<br>
+<div class="container">
+    <h3 style="font-family: 'Goldman';">Report User</h3>
+    <h5 style="font-family:'Goldman';"> You <span style="color: orange;">{{username}}</span>, reporting <span style="color: rgb(255, 89, 89);">{{user}}</span></h5>
+
+    </div>
+</div>
+<br>
+<div class="container">
+    <form action="/report_user_submit/{{user}}" method="POST" style="font-family: 'Goldman';">
+        <div class="form-group">
+            <label for="content">Reason to Report :</label>
+            <!-- <textarea class="form-control" id="content" name="report_reason" placeholder="Report Reason" rows="3" required></textarea> -->
+            <br><select id="report-reason" class="form-control" name="report_reason">
+                <option value="Scam or Fraud">Scam or Fraud</option>
+                <option value="I just don't like it">I just don't like it</option>
+                <option value="Hate speech or symbols">Hate speech or symbols</option>
+                <option value="Bullying or Harassment">Bullying or Harassment</option>
+                <option value="False Information">False Information</option>
+                <option value="Sale of illegal or regulated goods">Sale of illegal or regulated goods</option>
+                <option value="Violence">Violence</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Submit Report</button>
+    </form>
+</div>
+
+<style>
+    body{
+        background-color: rgb(41, 41, 41); 
+        color: white;
+    }
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+</style>
+{% endblock %}

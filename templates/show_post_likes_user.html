@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Liked By</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark" style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+        <button class="navbar-brand" href="" onclick="history.back()" style="color: orange; background: none; border: none;">&laquo; Back</button> 
+      </nav>
+      
+      <!-- nav-bar-ends___________________________________ -->
+
+      <br>
+
+<div class="container" style="font-family: 'Goldman'">
+     <h5><span style="color: orange;"></span>Liked By</h5><hr>
+
+{% for user in like_user_list %}
+
+<div class="user-name"><a href="/user/show_user/{{user}}">{{user}}</a></div>
+
+{% endfor %}
+
+</div>
+
+<style>
+    body{
+        background-color: rgb(39, 39, 39);
+        color: white;
+    }
+    
+    .box{
+        width: 100%;
+        line-height: 30px;
+        background-color: white;
+        margin-bottom : 60px;
+    }
+    .name{
+        width: 78%;
+        height: 30px;
+        float: left;
+        background-color: rgb(87, 87, 87);
+        padding-left: 10px;
+        border-radius: 5px;
+        margin-right: 2px;
+        text-shadow: 1px 1px 1px black;
+    }
+    .name a{
+        color: orange;
+    }
+
+    .user-name{
+        background-color: rgb(77, 77, 77);
+        margin: 10px 0;
+        padding: 5px 10px; 
+        font-family: 'Ubuntu';
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .user-name a{
+        color: white;
+        text-shadow: 1px 1px 1px black;
+    }
+    
+</style>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Add Details</title>
+
+
+{% endblock %}
+
+
+
+{% block body %}
+<div class="top-nav"></div>
+<br><br>
+<div class="container">
+    <div class="form-group">
+            
+        
+            <form action="/add_details" method="POST" enctype="multipart/form-data">
+
+                <button class="btn btn-primary btn-sm" type="submit" value="submit" style="float: right"> Skip &raquo; </button>
+            <hr>
+
+
+            <input type="file" id="actual-btn" name="file" accept="image/x-png, image/jpg, image/jpeg" onchange="preview_image(event)"  hidden/>
+            <label class="label-image" for="actual-btn"><i class="fa fa-image"></i></label>
+            <br>
+            <img id="output_image" alt="Update Profile Picture"/>
+            <br><br>
+            
+            
+
+            <label>Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="{{username}}"
+                value="{{username}}" readonly><br>
+
+            <label>Full Name</label>
+            <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Fullname"><br>
+
+            <label for="gender">Gender</label>
+
+            <select id="gender" class="form-control" name="gender">
+                <option value="N/A">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+
+            </select>
+
+            <br>
+            <label>About</label>
+            <textarea name="bio" class="form-control" id="bio" cols="50" rows="3"
+                placeholder="About"></textarea><br><br>
+
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" name="city" placeholder="City"><br>
+            <label for="state">State</label>
+            <input type="text" class="form-control" id="state" name="state" placeholder="State"><br>
+            <label for="country">Country</label>
+            <input type="text" class="form-control" id="country" name="country" placeholder="Country">
+
+            <br><br>
+
+            <h6>Note : You can leave above fields empty for now</h6><br>
+            <button class="btn btn-primary" type="submit" value="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    body {
+        background-color: rgb(71, 71, 71);
+    }
+
+    .top-nav {
+        width: 100%;
+        height: 40px;
+        background-color: rgb(7, 7, 7);
+    }
+
+    form {
+        border: 1px solid black;
+        padding: 30px;
+        font-family: 'Goldman';
+        background-color: rgb(22, 22, 22);
+        color: white;
+        text-align: center;
+
+    }
+    #output_image{
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: auto;
+        text-align: center;
+        
+    }
+   
+    .label-image{
+        font-size: 25px;
+        background-color: black;
+        padding: 15px 20px;
+        border-radius: 50%;
+        color: orange;
+    }        
+
+    form label {
+
+        color: white;
+
+    }
+
+    form input {
+
+        padding: 5px;
+
+    }
+
+    form textarea {
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+<script type='text/javascript'>
+function preview_image(event) 
+{
+ var reader = new FileReader();
+ reader.onload = function()
+ {
+  var output = document.getElementById('output_image');
+  output.src = reader.result;
+ }
+ reader.readAsDataURL(event.target.files[0]);
+}
+</script>
+{% endblock %}

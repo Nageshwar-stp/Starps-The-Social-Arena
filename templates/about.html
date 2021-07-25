@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Starps : About</title>
+{% endblock %}
+
+
+{% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-dark " style="background-color:rgb(26, 26, 26); font-family: 'Goldman';">
+    <a class="navbar-brand" style="color: orange;" href="{{url_for('index')}}">STARPS</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarsExample05">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="{{url_for('index')}}">Home </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('about_us')}}">About <span class="sr-only">(current)</span></a>
+        </li>
+        
+        
+      </ul>
+      <div class="action-button">
+        <div class="btn btn-outline-primary btn-sm navbar-text" style="font-family: 'Goldman';"><a href="{{ url_for('login') }}">Log in</a></div>
+      
+      <div class="btn btn-outline-success btn-sm navbar-text" style="font-family: 'Goldman';"><a href="{{ url_for('signup') }}">Sign up</a></div>
+    </div>
+      
+    </div>
+    
+  </nav>
+
+<div class="container" style="text-align: center; color: white; font-family: 'Goldman';">
+    <br><br>
+<h1 style="font-family: 'Goldman';">STARPS</h1>
+<h5 style="font-family: 'Goldman'; color: rgb(216, 140, 0);" >-- The Social Arena --</h5>
+<hr style="background-color: rgb(133, 133, 133);">
+<br>
+<br>
+<div class="desc-box" style="font-family: 'Open sans'; padding: 20px 10px 40px 10px; color: rgb(179, 179, 179);">
+    Welcome to the world of great thoughts on Starps created by STP Development and Production . This is the platform on which you can meet the great people and able to know that, what the world is thinking about. It also allows you to talk to a person who inspires you . 
+    You can also share your ideas, experiences happen with you to motivate others or be an idol for ohers .
+</div>
+
+
+<div class="cont-block">
+    <h6>Developed By</h6>
+    <h5>Nageshwar Tripathi</h5>
+</div>
+<br>
+<div class="cont-block">
+    <h6>Contributions</h6>
+    <h5>Suyash Awasthi</h5>
+    <h5>Harsh Kain</h5>
+
+</div>
+<br>
+<div class="cont-block">
+    <h6>Released By</h6>
+    <h5>STP Development & Production</h5>
+</div>
+
+<br>
+<div class="cont-block">
+    <h6>Feedback</h6>
+    <h5><a href="http://stpdnp.atwebpages.com" target="_blank">stp.atwebpages.com</a> </h5>
+</div>
+
+<br>
+<div class="cont-block">
+    <h6>Terms</h6>
+    <h5><a href="{{url_for('term_and_conditions')}}">Term & Conditions</a> </h5>
+</div>
+
+<br>
+
+<div class="cont-block">
+    <h6>Privacy</h6>
+    <h5><a href="{{url_for('privacy_policy')}}">Privacy Policy</a> </h5>
+</div>
+
+<br>
+
+
+</div>
+<style>
+body{
+    background-color: rgb(20, 20, 20);
+}
+
+.cont-block{
+    border-bottom: 1px solid white;
+    padding: 10px;
+}
+.cont-block h6{
+    color: rgb(211, 137, 0);
+}
+
+.cont-block h5{
+    color: rgb(168, 168, 168);
+}
+.cont-block h5 a{
+    color: rgb(0, 160, 223);
+    text-decoration: underline;
+}
+
+</style>
+
+{% endblock %}

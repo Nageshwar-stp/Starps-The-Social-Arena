@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Stories</title>
+{% endblock %}
+
+{% block body %}
+<!-- nav-bar-starts___________________________________ -->
+  <div class="top-bar"><a href=""><i class="fa fa-home"></i></a></div>
+<!-- nav-bar-ends___________________________________ -->
+
+<div class="container">
+    <!-- flash notification -->
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{ message }}
+
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- flash notification ends -->
+    </div>
+
+    <div class="container" style="color: white;">
+        <br>
+       <h4>Stories</h4>
+       <hr style="height: 2px; background-color: black;">
+
+       <div class="add-story">
+           <a href="{{url_for('add_story')}}"><i class="fa fa-plus"></i> Add Story</a>
+       </div>
+       
+       {% for story in all_stories %}
+        {% if story.story_username == username %}
+            <div class="my-story-box">
+                <div class="my-story-preview"><img src="/static/{{story.story_photo}}" alt="Story Image"></div>
+                <a class="my-story-name" href="/user/stories/show_story/{{story.story_id}}">My Story</a>
+                <div class="my-story-time">{{story.story_time}}</div>
+            </div>
+        {% endif %}
+       {% endfor %}
+       <hr style="height: 1px; background-color: rgb(15, 15, 15);">
+       {% for story in all_stories %}
+       {% if story.story_username != username %}
+           <div class="story-box">
+               <div class="story-preview"><img src="/static/{{story.story_photo}}" alt="Story Image"></div>
+               <a class="story-name" href="/user/stories/show_story/{{story.story_id}}">{{story.story_username}}</a>
+               <div class="story-time">{{story.story_time}}</div>
+           </div>
+        {% endif %}
+        {% endfor %}
+
+        <br><br>
+    </div>
+
+
+
+
+<style>
+       body{
+        background: rgb(53, 53, 53);
+        color: white;
+        font-family: 'Ubuntu';
+       }
+       .my-story-box{
+           display: flex;
+           align-items: center;
+           border-left: 2px solid rgb(0, 208, 255);
+           margin: 10px 0px;
+           height: 55px;
+           transition: 2s;
+       }
+       .my-story-box:hover{
+           background: linear-gradient(45deg, rgb(0, 208, 255) , rgba(0, 208, 255,0.2), rgba(15, 15, 15, 0.0))
+       }
+       .my-story-preview{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+       }
+       .my-story-preview img{
+           width: 42px;
+           height: 42px;
+           object-fit: cover;
+           border-radius: 50%;
+           border: 2px solid orange;
+           
+       }
+       .my-story-name{
+           flex: 1;
+           text-align: left;
+           color: white;
+           transition: 0.4s;
+           font-size: 14px;
+           background: none;
+           border: none;
+          
+       }
+       .my-story-name:hover{
+           color: black;
+           text-decoration: none;
+       }
+       .my-story-time{
+            flex: 1;
+            font-size: 10px;
+            color: black;
+       }
+
+/*-------------------------------------------------*/
+.story-box{
+    display: flex;
+    align-items: center;
+    border-right: 2px solid orange;
+    margin: 5px 0px;
+    height: 48px;
+    transition: 0.4s;
+   
+    
+}
+.story-box:hover{
+    background: linear-gradient(90deg, rgb(53, 53, 53), rgba(219, 143, 0, 0.5), orange);
+    
+}
+.story-preview{
+     flex: 1;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+.story-preview img{
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgb(0, 208, 255);
+    
+}
+.story-name{
+    flex: 1;
+    text-align: left;
+    color: white;
+    transition: 0.4s;
+    font-size: 14px;
+   
+}
+.story-name:hover{
+    color: black;
+    text-decoration: none;
+}
+.story-time{
+     flex: 1;
+     font-size: 10px;
+     color: black;
+}
+
+
+       .add-story{
+        width: 100%;
+        line-height: 50px;
+        background: rgb(18, 18, 18);
+        padding: 2px 20px;
+       }
+       .add-story a{
+        color: orange;
+        font-family: 'Ubuntu';
+        font-weight: bold;
+        font-size: 14px;
+       }
+       .top-bar{
+        width: 100%;
+        line-height: 40px;
+        background: rgb(15, 15, 15);
+       }
+       .top-bar a{
+        color: orange;
+        padding-left: 20px;
+        font-size: 20px;
+       }
+       
+</style>
+
+{% endblock %}

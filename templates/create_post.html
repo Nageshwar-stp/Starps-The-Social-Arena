@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<title>Create Post</title>
+{% endblock %}
+
+
+
+{% block body %}
+<div class="logon-nav">
+    <a href="{{url_for('user')}}" style="color: orange;">  &laquo; Back</a>
+</div>
+
+<div class="container">
+    <br>
+    <h4 style="font-family: 'Goldman';"><a class="create-post" href="{{url_for('createPost')}}">Create Post</a><a class="post-photo" href="{{url_for('post_photo')}}">Post Photo</a></h4>
+  
+
+</div>
+</div>
+<br>
+<div class="container">
+    <form class="form-box" action="/user/create_post" method="POST" >
+        <div class="form-group">
+
+            <label for="content"><i class="fa fa-pencil-square-o"></i></label>
+            <br><br>
+            <textarea class="form-control text-area" id="content" name="content" placeholder="Write your thoughts here" rows="5" required></textarea><br>
+          
+        </div>
+        <button type="submit" class="btn btn-warning btn-block">Post</button>
+    </form>
+</div>
+
+<style>
+     body{
+        background-color: rgb(41, 41, 41); 
+        color: white;
+        font-family: 'Goldman';
+    }
+    h4 {
+      font-size: 18px;
+      border-bottom: 2px solid black;
+      padding-bottom: 1px;
+      color: white;
+    }
+
+    h4 a {
+      color: white;
+    }
+
+    h4 .create-post {
+      background-color: black;
+      padding: 2px 10px;
+      margin-right: 5px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      color: orange;
+    }
+
+    h4 .post-photo {
+      padding: 2px 10px;
+      margin-left: 5px;
+    }
+    form {
+            background-color: rgb(88, 88, 88);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+    .text-area {
+            border: 3px solid rgb(0, 0, 0);
+            border-radius: 5px;
+            font-family: 'Ubuntu';
+            font-size: 13px;
+            font-weight: bold;
+        }
+        label{
+            font-size: 25px;
+            background-color: black;
+            padding: 15px 20px;
+            border-radius: 50%;
+            color: orange;
+        }        
+
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+</style>
+{% endblock %}

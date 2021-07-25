@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Settings : {{username}}</title>
+{% endblock %}
+
+
+{% block body %}
+
+
+<!-- nav-bar-starts___________________________________ -->
+<nav class="navbar navbar-dark"
+    style="font-family: 'Goldman'; background-color: rgb(26, 26, 26); top:0; position: sticky;">
+    <a class="navbar-brand" href="{{url_for('account')}}" style="color: orange; background: none; border: none;">&laquo;
+        Back</a>
+
+
+</nav>
+
+<!-- nav-bar-ends___________________________________ -->
+
+<br>
+
+<div class="container" style="font-family: 'Goldman'">
+    <h4><span style="color: orange;"></span>Settings</h4>
+<hr style="height: 1px; background-color: black;">
+
+
+    <div class="setting-option"><a href="{{url_for('account_update')}}"> <i class="fa fa-gears ico"></i> Update Account</a></div>
+    <div class="setting-option"><a href="{{url_for('change_password')}}"> <i class="fa fa-key ico"></i> Change Password</a></div>
+    <div class="setting-option"><a href="{{url_for('account_privacy')}}"> <i class="fa fa-lock ico"></i> Account Privacy</a></div>
+    <div class="setting-option"><a href="{{url_for('block_list')}}"> <i class="fa fa-ban ico"></i> Block List</a></div>
+    <br><br>
+    <hr>
+    <!-- <div class="setting-option delete"><a href="{{url_for('confirm_delete')}}"> <i class="fa fa-trash-o ico"></i> Delete Account</a></div>
+    <hr> -->
+    <div class="setting-option info"><a href="{{url_for('privacy_policy')}}">  <i class="fa fa-book"></i> Privacy Policy</a></div>
+    <div class="setting-option info"><a href="{{url_for('term_and_conditions')}}"> <i class="fa fa-gavel"></i> Terms & Conditions</a></div>
+
+    <p>
+        <a class="btn setting-option info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+            aria-controls="collapseExample" style="color: white;">
+            About STARPS
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body" style="background-color: rgb(20, 20, 20); ">
+                <div class="desc-box" style="font-family: 'Open sans'; padding: 20px 10px 40px 10px; color: rgb(179, 179, 179);">
+                        Welcome to the world of great thoughts on Starps created by STP Development and Production . This is the platform on which you can meet the great people and able to know that, what the world is thinking about. It also allows you to talk to a person who inspires you . 
+                        You can also share your ideas, experiences happen with you to motivate others or be an idol for ohers .
+                    </div>
+                    
+                    
+                    <div class="cont-block">
+                        <h6>Developed By</h6>
+                        <h5>Nageshwar Tripathi</h5>
+                    </div>
+                    <br>
+                    <div class="cont-block">
+                        <h6>Contributions</h6>
+                        <h5>Suyash Awasthi</h5>
+                        <h5>Harsh Kain</h5>
+                    
+                    </div>
+                    <br>
+                    <div class="cont-block">
+                        <h6>Released By</h6>
+                        <h5>STP Development & Production</h5>
+                    </div>
+                    
+                    <br>
+                </div>
+        </div>
+    </div>
+   
+</div>
+
+<br><br><br>
+
+<style>
+    body {
+        background-color: rgb(131, 131, 131);
+    }
+    .ico{
+        color: white;
+    }
+
+    .setting-option {
+        width: 100%;
+        height: 35px;
+        background-image: linear-gradient(45deg, black, rgb(119, 119, 119));
+        margin: 12px 5px;
+        padding: 5px 10px;
+        border-radius: 4px;
+        border-bottom: 2px solid black;
+
+    }
+
+    .setting-option a {
+        color: orange;
+        font-family: 'Goldman';
+        font-size: 15px;
+    }
+
+    .delete a {
+        color: rgb(255, 65, 65);
+    }
+
+    .info a {
+        color: rgb(255, 255, 255);
+    }
+
+    .cont-block{
+    border-bottom: 1px solid white;
+    padding: 10px;
+}
+.cont-block h6{
+    color: rgb(211, 137, 0);
+}
+
+.cont-block h5{
+    color: rgb(168, 168, 168);
+}
+.cont-block h5 a{
+    color: rgb(0, 160, 223);
+    text-decoration: underline;
+}
+</style>
+{% endblock %}

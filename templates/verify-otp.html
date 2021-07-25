@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+<title>Verify OTP</title>
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="logon-nav">
+    <a href="{{url_for('index')}}" style="color: orange;"> &laquo; HOME</a>
+</div>
+<br>
+<div class="container">
+    <h3 style="font-family: 'Goldman';">Account Verification</h3>
+    <small>We've sent an OTP on your entered Email Address. (Refresh to re-send) </small>
+
+    {% with messages = get_flashed_messages() %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">x</span>
+        </button>
+        {{ message }}
+        <!-- <script>alert("Something wrong") </script> -->
+        {% endfor %}
+
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+<br>
+<div class="container">
+    <form action="/verify-otp-final" method="POST" style="font-family: 'Goldman';">
+        <div class="form-group">
+            <label for="exampleInputPassword1">Enter OTP</label>
+            <input type="text" name="otp" class="form-control" id="exampleInputPassword1" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Verify</button>
+    </form>
+</div>
+
+<style>
+    body{
+        background-color: rgb(41, 41, 41); 
+        color: white;
+    }
+    .logon-nav {
+        width: 100%;
+        line-height: 45px;
+        background-color: black;
+    }
+
+    .logon-nav a {
+        color: white;
+        font-family: 'Goldman';
+        padding: 5px 20px 5px 20px;
+    }
+</style>
+{% endblock %}
