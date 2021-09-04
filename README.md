@@ -7,4 +7,7 @@ Text Post
 Profile Management
 Direct Messaging
 Account Privacy
+Photo & Post Liking system
+Follow Un-follow system
+and many more other features
 ```
